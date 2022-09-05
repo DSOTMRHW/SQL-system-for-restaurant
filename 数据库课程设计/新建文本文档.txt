@@ -1,0 +1,179 @@
+SET SCHEMA 饭店管理系统;
+
+CREATE TABLE Account
+( 
+	Account_Index        char(18)  NOT NULL ,
+	Time                 char(18)  NULL ,
+	Income               char(18)  NULL ,
+	Food_Outcome         char(18)  NULL ,
+	Wage_Outcome         char(18)  NULL ,
+	Other_Outcome        char(18)  NULL ,
+	Stuff_Index          char(18)  NULL ,
+	dOrder_Index          char(18)  NULL ,
+	Staff_Index          char(18)  NULL 
+);
+
+
+
+
+ALTER TABLE Account
+	ADD CONSTRAINT "流水"  PRIMARY KEY  (Account_Index);
+
+
+
+
+CREATE TABLE dTable
+( 
+	dTable_Index         char(18)  NOT NULL ,
+	State                char(18)  NULL ,
+	dOrder_Index          char(18)  NULL 
+);
+
+
+
+
+ALTER TABLE dTable
+	ADD CONSTRAINT "餐桌" PRIMARY KEY   (dTable_Index);
+
+
+
+
+CREATE TABLE Menu
+( 
+	Menu_Index           char(18)  NOT NULL ,
+	Dish_Name            char(18)  NULL ,
+	Type                 char(18)  NULL ,
+	Price                char(18)  NULL 
+);
+
+
+
+
+ALTER TABLE Menu
+	ADD CONSTRAINT "菜单" PRIMARY KEY (Menu_Index);
+
+
+
+
+CREATE TABLE dOrder
+( 
+	dOrder_Index          char(18)  NOT NULL ,
+	dOrder_Time           char(18)  NULL ,
+	Payment              char(18)  NULL ,
+	Remark               char(18)  NULL ,
+	Menu_Index           char(18)  NULL ,
+	Charge               char(18)  NULL 
+);
+
+
+
+
+ALTER TABLE dOrder
+	ADD CONSTRAINT "订单" PRIMARY KEY   (dOrder_Index);
+
+
+
+
+CREATE TABLE Staff
+( 
+	Staff_Index          char(18)  NOT NULL ,
+	Job_Title            char(18)  NULL ,
+	Name                 char(18)  NULL ,
+	Sex                  char(18)  NULL ,
+	Wage                 char(18)  NULL ,
+	Age                  char(18)  NULL ,
+	Phone                char(18)  NULL ,
+	ID                   char(18)  NULL ,
+	Bank_account         char(18)  NULL ,
+	dTable_Index         char(18)  NULL 
+);
+
+
+
+
+ALTER TABLE Staff
+	ADD CONSTRAINT "员工" PRIMARY KEY  (Staff_Index);
+
+
+
+
+CREATE TABLE dUser
+( 
+	Account              char(18)  NOT NULL ,
+	Password             char(18)  NULL 
+);
+
+
+
+
+ALTER TABLE dUser
+	ADD CONSTRAINT "用户" PRIMARY KEY  (Account);
+
+
+
+
+CREATE TABLE Warehouse
+( 
+	Stuff_Index          char(18)  NOT NULL ,
+	Stuff_Name           char(18)  NULL ,
+	Amount               char(18)  NULL ,
+	pPrice               char(18)  NULL ,
+	Menu_Index           char(18)  NULL 
+);
+
+
+
+
+ALTER TABLE Warehouse
+	ADD CONSTRAINT "仓储" PRIMARY KEY (Stuff_Index);
+
+
+
+
+
+ALTER TABLE Account
+	ADD CONSTRAINT R_15 FOREIGN KEY (Stuff_Index) REFERENCES Warehouse(Stuff_Index);
+
+
+
+
+
+ALTER TABLE Account
+	ADD CONSTRAINT R_17 FOREIGN KEY (dOrder_Index) REFERENCES dOrder(dOrder_Index);
+
+
+
+
+
+ALTER TABLE Account
+	ADD CONSTRAINT R_19 FOREIGN KEY (Staff_Index) REFERENCES Staff(Staff_Index);
+
+
+
+
+
+ALTER TABLE dTable
+	ADD CONSTRAINT R_14 FOREIGN KEY (dOrder_Index) REFERENCES dOrder(dOrder_Index);
+
+
+
+
+
+ALTER TABLE dOrder
+	ADD CONSTRAINT R_12 FOREIGN KEY (Menu_Index) REFERENCES Menu(Menu_Index);
+
+
+
+
+
+ALTER TABLE Staff
+	ADD CONSTRAINT R_18 FOREIGN KEY (dTable_Index) REFERENCES dTable(dTable_Index);
+
+
+
+
+
+ALTER TABLE Warehouse
+	ADD CONSTRAINT R_11 FOREIGN KEY (Menu_Index) REFERENCES Menu(Menu_Index);
+
+
